@@ -58,87 +58,132 @@ section h3 {
 }
 
 .activity-card {
-  margin-bottom: 15px;
-  padding: 15px;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  background-color: #f9f9f9;
+  background: linear-gradient(180deg, #ffffff, #fbfbfd);
+  border: 1px solid #e6e9ef;
+  border-radius: 10px;
+  padding: 14px;
+  margin: 12px 0;
+  box-shadow: 0 1px 4px rgba(20,30,50,0.04);
 }
 
-.activity-card h4 {
-  margin-bottom: 10px;
-  color: #0066cc;
+.activity-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 8px;
 }
 
-.activity-card p {
-  margin-bottom: 8px;
+.activity-title {
+  margin: 0;
+  font-size: 1.05rem;
+  color: #1d2733;
 }
 
-.form-group {
-  margin-bottom: 15px;
+.activity-capacity {
+  font-size: 0.9rem;
+  color: #6b7280;
+  background: #f1f5f9;
+  padding: 4px 8px;
+  border-radius: 999px;
 }
 
-.form-group label {
-  display: block;
-  margin-bottom: 5px;
-  font-weight: bold;
+.activity-desc {
+  margin: 8px 0 12px 0;
+  color: #3b4652;
+  font-size: 0.95rem;
 }
 
-.form-group input,
-.form-group select {
-  width: 100%;
-  padding: 10px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  font-size: 16px;
+/* Participants section */
+.participants-section h5 {
+  margin: 0 0 8px 0;
+  font-size: 0.95rem;
+  color: #253341;
 }
 
-button {
-  background-color: #1a237e;
-  color: white;
+.participants {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* Ensure bullet points hidden (defensive) */
+.participants { list-style-type: none; }
+
+.participant-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 8px;
+  border-radius: 8px;
+  background: linear-gradient(90deg,#ffffff,#fcfdff);
+  border: 1px solid #eef2f6;
+}
+
+.participant-avatar {
+  width: 34px;
+  height: 34px;
+  min-width: 34px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  color: #ffffff;
+  background: linear-gradient(135deg,#6d7cff,#4dd0e1);
+  box-shadow: 0 1px 2px rgba(16,24,40,0.06);
+  font-size: 0.85rem;
+}
+
+.participant-email {
+  font-size: 0.92rem;
+  color: #213041;
+}
+
+/* delete button next to participant */
+.participant-delete {
+  margin-left: auto;
+  background: transparent;
   border: none;
-  padding: 10px 15px;
-  font-size: 16px;
-  border-radius: 5px;
+  color: #b91c1c;
+  font-size: 0.95rem;
   cursor: pointer;
-  transition: background-color 0.2s;
+  padding: 6px;
+  border-radius: 6px;
+}
+.participant-delete:hover { background: rgba(185,28,28,0.08); }
+.participant-delete:focus { outline: 2px solid rgba(29,78,216,0.2); }
+
+/* Placeholder when no participants */
+.no-participants {
+  margin: 6px 0 0 0;
+  color: #546070;
+  font-style: italic;
+  font-size: 0.92rem;
 }
 
-button:hover {
-  background-color: #3949ab;
-}
+/* utility hidden */
+.hidden { display: none !important; }
 
-.message {
-  margin-top: 20px;
-  padding: 10px;
-  border-radius: 4px;
+/* Message classes */
+#message {
+  margin-top: 12px;
+  padding: 8px 10px;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  display: inline-block;
 }
+.msg-success { background: #e6ffef; color: #066b3f; border: 1px solid #beffd8; }
+.msg-error { background: #fff3f3; color: #8b1414; border: 1px solid #ffd6d6; }
+.msg-info { background: #eef2ff; color: #1b3a8a; border: 1px solid #dde8ff; }
 
-.success {
-  background-color: #e8f5e9;
-  color: #2e7d32;
-  border: 1px solid #a5d6a7;
-}
-
-.error {
-  background-color: #ffebee;
-  color: #c62828;
-  border: 1px solid #ef9a9a;
-}
-
-.info {
-  background-color: #d1ecf1;
-  color: #0c5460;
-  border: 1px solid #bee5eb;
-}
-
-.hidden {
-  display: none;
-}
-
-footer {
-  text-align: center;
-  margin-top: 30px;
-  padding: 20px;
-  color: #666;
+/* Responsive tweaks */
+@media (min-width: 720px) {
+  #activities-list {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
 }
