@@ -4,41 +4,61 @@ document.addEventListener("DOMContentLoaded", () => {
   const signupForm = document.getElementById("signup-form");
   const messageDiv = document.getElementById("message");
 
-  // Function to fetch activities from API
-  async function fetchActivities() {
-    try {
-      const response = await fetch("/activities");
-      const activities = await response.json();
+  // Simple in-memory activity data (replace with real fetch if available)
+  const activities = [
+    { id: 'chess', title: 'Chess Club', desc: 'Strategy and friendly matches', capacity: 20, participants: ['alice@mergington.edu', 'bob@mergington.edu'] },
+    { id: 'drama', title: 'Drama Club', desc: 'Acting workshops and plays', capacity: 30, participants: [] },
+    { id: 'robotics', title: 'Robotics Team', desc: 'Build and program robots', capacity: 15, participants: ['carol@mergington.edu'] }
+  ];
 
-      // Clear loading message
-      activitiesList.innerHTML = "";
+  const template = document.getElementById('activity-card-template');
 
-      // Populate activities list
-      Object.entries(activities).forEach(([name, details]) => {
-        const activityCard = document.createElement("div");
-        activityCard.className = "activity-card";
+  function renderActivities() {
+    activitiesList.innerHTML = '';
+    activities.forEach(act => {
+      const node = template.content.cloneNode(true);
+      node.querySelector('.activity-title').textContent = act.title;
+      node.querySelector('.activity-desc').textContent = act.desc;
+      node.querySelector('.activity-capacity').textContent = `${act.participants.length}/${act.capacity}`;
+      const participantsUl = node.querySelector('.participants');
+      const noParts = node.querySelector('.no-participants');
 
-        const spotsLeft = details.max_participants - details.participants.length;
+      if (act.participants.length === 0) {
+        noParts.classList.remove('hidden');
+        participantsUl.innerHTML = '';
+      } else {
+        noParts.classList.add('hidden');
+        participantsUl.innerHTML = '';
+        act.participants.forEach(p => {
+          const li = document.createElement('li');
+          li.className = 'participant-item';
+          // simple avatar using initials
+          const avatar = document.createElement('span');
+          avatar.className = 'participant-avatar';
+          const initials = p.split('@')[0].split(/[.\-_]/).map(s => s[0]?.toUpperCase()).join('').slice(0,2);
+          avatar.textContent = initials || 'U';
+          const text = document.createElement('span');
+          text.className = 'participant-email';
+          text.textContent = p;
+          li.appendChild(avatar);
+          li.appendChild(text);
+          participantsUl.appendChild(li);
+        });
+      }
 
-        activityCard.innerHTML = `
-          <h4>${name}</h4>
-          <p>${details.description}</p>
-          <p><strong>Schedule:</strong> ${details.schedule}</p>
-          <p><strong>Availability:</strong> ${spotsLeft} spots left</p>
-        `;
+      activitiesList.appendChild(node);
+    });
+  }
 
-        activitiesList.appendChild(activityCard);
-
-        // Add option to select dropdown
-        const option = document.createElement("option");
-        option.value = name;
-        option.textContent = name;
-        activitySelect.appendChild(option);
-      });
-    } catch (error) {
-      activitiesList.innerHTML = "<p>Failed to load activities. Please try again later.</p>";
-      console.error("Error fetching activities:", error);
-    }
+  function populateSelect() {
+    // keep the first placeholder option
+    activitySelect.querySelectorAll('option:not([value=""])').forEach(o => o.remove());
+    activities.forEach(act => {
+      const opt = document.createElement('option');
+      opt.value = act.id;
+      opt.textContent = act.title;
+      activitySelect.appendChild(opt);
+    });
   }
 
   // Handle form submission
@@ -81,6 +101,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // Initialize app
-  fetchActivities();
+  // init
+  populateSelect();
+  renderActivities();
 });

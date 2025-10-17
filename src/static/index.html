@@ -39,6 +39,26 @@
         </form>
         <div id="message" class="hidden"></div>
       </section>
+
+      <!-- Template for activity cards -->
+      <template id="activity-card-template">
+        <article class="activity-card">
+          <div class="activity-header">
+            <h4 class="activity-title"></h4>
+            <span class="activity-capacity"></span>
+          </div>
+          <p class="activity-desc"></p>
+
+          <!-- Participants section -->
+          <div class="participants-section">
+            <h5>Participants</h5>
+            <ul class="participants">
+              <!-- participant <li> items injected here -->
+            </ul>
+            <p class="no-participants hidden">No participants yet — be the first!</p>
+          </div>
+        </article>
+      </template>
     </main>
 
     <footer>
