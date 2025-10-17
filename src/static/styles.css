@@ -109,6 +109,9 @@ section h3 {
   gap: 8px;
 }
 
+/* Ensure bullet points hidden (defensive) */
+.participants { list-style-type: none; }
+
 .participant-item {
   display: flex;
   align-items: center;
@@ -138,6 +141,20 @@ section h3 {
   font-size: 0.92rem;
   color: #213041;
 }
+
+/* delete button next to participant */
+.participant-delete {
+  margin-left: auto;
+  background: transparent;
+  border: none;
+  color: #b91c1c;
+  font-size: 0.95rem;
+  cursor: pointer;
+  padding: 6px;
+  border-radius: 6px;
+}
+.participant-delete:hover { background: rgba(185,28,28,0.08); }
+.participant-delete:focus { outline: 2px solid rgba(29,78,216,0.2); }
 
 /* Placeholder when no participants */
 .no-participants {

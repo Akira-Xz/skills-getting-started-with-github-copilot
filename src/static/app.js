@@ -40,8 +40,35 @@ document.addEventListener("DOMContentLoaded", () => {
           const text = document.createElement('span');
           text.className = 'participant-email';
           text.textContent = p;
+            // delete button
+            const delBtn = document.createElement('button');
+            delBtn.className = 'participant-delete';
+            delBtn.type = 'button';
+            delBtn.title = 'Unregister participant';
+            delBtn.setAttribute('aria-label', `Unregister ${p}`);
+            delBtn.innerHTML = '✖';
+            delBtn.addEventListener('click', async () => {
+              // optimistic UI: remove from local array and re-render on success
+              try {
+                const resp = await fetch(`/activities/${encodeURIComponent(act.title)}/unregister?email=${encodeURIComponent(p)}`, { method: 'POST' });
+                const body = await resp.json();
+                if (!resp.ok) {
+                  console.error('Failed to unregister:', body);
+                  alert(body.detail || 'Failed to unregister participant');
+                  return;
+                }
+                // remove from local data and re-render
+                const idx = act.participants.indexOf(p);
+                if (idx !== -1) act.participants.splice(idx, 1);
+                renderActivities();
+              } catch (err) {
+                console.error('Error unregistering participant', err);
+                alert('Error unregistering participant');
+              }
+            });
           li.appendChild(avatar);
           li.appendChild(text);
+            li.appendChild(delBtn);
           participantsUl.appendChild(li);
         });
       }
@@ -82,6 +109,14 @@ document.addEventListener("DOMContentLoaded", () => {
         messageDiv.textContent = result.message;
         messageDiv.className = "success";
         signupForm.reset();
+        // Update local activities data so the UI shows the new participant immediately
+        const actObj = activities.find(a => a.id === activity);
+        if (actObj) {
+          if (!actObj.participants.includes(email)) {
+            actObj.participants.push(email);
+          }
+          renderActivities();
+        }
       } else {
         messageDiv.textContent = result.detail || "An error occurred";
         messageDiv.className = "error";
